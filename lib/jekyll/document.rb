@@ -9,7 +9,7 @@ module Jekyll
 
     YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m
     DATELESS_FILENAME_MATCHER = %r!^(?:.+/)*(.*)(\.[^.]+)$!
-    DATE_FILENAME_MATCHER = %r!^(?:.+/)*(\d{4}-\d{2}-\d{2})-(.*)(\.[^.]+)$!
+    DATE_FILENAME_MATCHER = %r!^(?:.+/)*(\d{2,4}-\d{1,2}-\d{1,2})-(.*)(\.[^.]+)$!
 
     # Create a new Document.
     #
@@ -196,7 +196,7 @@ module Jekyll
       @url = URL.new({
         :template     => url_template,
         :placeholders => url_placeholders,
-        :permalink    => permalink
+        :permalink    => permalink,
       }).to_s
     end
 
@@ -474,14 +474,14 @@ module Jekyll
           "category",
           "categories"
         )
-        ).map(&:to_s).flatten.uniq
+        ).map(&:to_s).flatten.uniq,
       })
     end
 
     private
     def populate_tags
       merge_data!({
-        "tags" => Utils.pluralized_array_from_hash(data, "tag", "tags").flatten
+        "tags" => Utils.pluralized_array_from_hash(data, "tag", "tags").flatten,
       })
     end
 
